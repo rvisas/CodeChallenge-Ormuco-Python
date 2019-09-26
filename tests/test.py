@@ -1,8 +1,8 @@
 import time
 import unittest
 
-from data import Data
-from cache import LRUCache
+from src.lru_cache.data import Data
+from src.lru_cache.cache import LRUCache
 
 # helper functions
 def generate_data(n=5):
