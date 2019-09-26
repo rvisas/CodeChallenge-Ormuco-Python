@@ -1,2 +1,2 @@
-from cache import LRUCache
-from data import Data
+from .cache import LRUCache
+from .data import Data
