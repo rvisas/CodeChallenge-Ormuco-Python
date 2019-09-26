@@ -1,1 +1,0 @@
-print('Testing execution of main file')
