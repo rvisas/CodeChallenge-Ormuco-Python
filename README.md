@@ -19,3 +19,17 @@ Follow the next steps
 * Run the pip installer
 `$ pip install lru_cache-1.0.0.tar.gz`
  
+
+### To publish the package in PyPI
+
+Follow the next steps
+
+* Move into the project folder
+`$ cd $HOME/{root_folder}`
+
+* Install twine
+`$ python -m pip install --user --upgrade twine`
+
+* Upload package to PyPI
+`$ twine upload dist/lru_cache-1.0.0.tar.gz`
+
