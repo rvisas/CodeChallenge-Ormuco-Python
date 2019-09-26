@@ -1,6 +1,10 @@
 # CodeChallenge-Ormuco-Python
-Solution for a question on LRU distributed cache
+Package to provide a distributed LRU cache
 
-# To Generate Source
+### To Generate Source
+
+* Move into the project folder
 `$ cd $HOME/{root_folder}`
+
+* Run the "dist" generator
 `$ python setup.py sdist`
