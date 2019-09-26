@@ -1,6 +1,7 @@
 import time
 import unittest
 
+# Explicit is better than implicit
 from src.lru_cache.data import Data
 from src.lru_cache.cache import LRUCache
 

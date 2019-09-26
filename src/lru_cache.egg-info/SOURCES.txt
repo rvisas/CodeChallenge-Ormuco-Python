@@ -1,0 +1,10 @@
+README.md
+setup.py
+src/lru_cache/__init__.py
+src/lru_cache/__main__.py
+src/lru_cache/cache.py
+src/lru_cache/data.py
+src/lru_cache.egg-info/PKG-INFO
+src/lru_cache.egg-info/SOURCES.txt
+src/lru_cache.egg-info/dependency_links.txt
+src/lru_cache.egg-info/top_level.txt
