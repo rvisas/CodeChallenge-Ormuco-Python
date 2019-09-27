@@ -7,22 +7,21 @@ from src.lru_cache.cache import LRUCache
 def generate_data(n=10):
     users = []
     for number in range(n):
-        username = 'user{}'.format(number)
+        username = 'ronny{}'.format(number)
         email = '{}@ormuco.com'.format(username)
-        user = Node(username, email)
-        users.append(user)
+        users.append((username, email))
     return users
 
 class TestCache(unittest.TestCase):
 
     def test_expiry(self):
-        cache = LRUCache(100, 1200)
+        cache = LRUCache(20, 1200)
         users = generate_data(20)
-        for user in users:
-            cache.put(user)
+        for (username, email) in users:
+            cache.put(username, email)
 
         # cache has 5 items?
-        self.assertEqual(cache.getLength(), 5)
+        self.assertEqual(cache.getLength(), 20)
 
         # sleep for 5 seconds, all items expired?
         time.sleep(5)

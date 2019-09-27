@@ -49,7 +49,7 @@ class LRUCache:
             node.setValue(value)
             self.deleteFromList(node)
         else:
-            if (len(self._cache) >= self._max_capacity):
+            if (self.getLength() >= self._max_capacity):
                 self.deleteFromList(self._cache[self._tail])
             node = Node(key, value)
 
@@ -59,3 +59,6 @@ class LRUCache:
         for node in self._cache.values():
             if (node.isExpired(self._expiry)):
                 self.deleteFromList(node)
+
+    def getLength(self):
+        return len(self._cache)
