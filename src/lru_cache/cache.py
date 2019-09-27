@@ -1,5 +1,6 @@
 from .node import Node
 
+
 class LRUCache:
 
     def __init__(self, max_capacity=10, expiry=3600):
@@ -58,6 +59,3 @@ class LRUCache:
         for node in self._cache.values():
             if (node.isExpired(self._expiry)):
                 self.deleteFromList(node)
-
-    def getLength(self):
-        return len(self._cache)
