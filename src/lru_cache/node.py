@@ -13,25 +13,25 @@ class Node:
     def getKey(self):
         return self._key
 
-    def setKey(self, key):
+    def setKey(self, key=None):
         self._key = key
 
     def getValue(self):
         return self._value
 
-    def setValue(self, value):
+    def setValue(self, value=None):
         self._value = value
 
     def getPrev(self):
         return self._prev
 
-    def setPrev(self, prev):
+    def setPrev(self, prev=None):
         self._prev = prev
 
     def getNext(self):
         return self._next
 
-    def setNext(self, next):
+    def setNext(self, next=None):
         self._next = next
 
     def isExpired(self, expiry):
