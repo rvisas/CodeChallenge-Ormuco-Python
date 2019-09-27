@@ -1,56 +1,43 @@
 import time
 import unittest
 
-# Explicit is better than implicit
-from src.lru_cache.data import Data
+from src.lru_cache.node import Node
 from src.lru_cache.cache import LRUCache
 
-# helper functions
-def generate_data(n=5):
+def generate_data(n=10):
     users = []
-    for i in range(1, n+1):
-        username = 'user{}'.format(i)
-        email = '{}@gmail.com'.format(username)
-        user = Data(username, email)
+    for number in range(n):
+        username = 'user{}'.format(number)
+        email = '{}@ormuco.com'.format(username)
+        user = Node(username, email)
         users.append(user)
     return users
-
 
 class TestCache(unittest.TestCase):
 
     def test_expiry(self):
-        cache = LRUCache(size=1000, expiry=2, region='US/EST')
-        users = generate_data(n=5)
+        cache = LRUCache(100, 1200)
+        users = generate_data(20)
         for user in users:
             cache.put(user)
 
         # cache has 5 items?
-        self.assertEqual(len(cache), 5)
+        self.assertEqual(cache.getLength(), 5)
 
-        # sleep for 2 seconds, all items expired?
-        time.sleep(2)
-        cache.drop_expired()
-        self.assertTrue(cache.is_empty())
-
-        # remove expired items
-        user1 = users[0]
-        cache.put(user1)
-        time.sleep(2)
-        for user in users[1:]:
-            cache.put(user)
-        cache.drop_expired()
-        self.assertEqual(len(cache), 4)
+        # sleep for 5 seconds, all items expired?
+        time.sleep(5)
+        cache.removeExpiredNodes()
+        self.assertTrue(cache.getLength() == 0)
 
     def test_capacity(self):
-        cache = LRUCache(size=3, expiry=1000, region='US/EST')
-        users = generate_data(n=5)
+        cache = LRUCache(3, 1000)
+        users = generate_data(20)
         for user in users:
             cache.put(user)
 
         # lru should be user 3 and mru should be user 5
         self.assertEqual(cache.lru, users[2].key)
         self.assertEqual(cache.mru, users[-1].key)
-
 
 if __name__ == '__main__':
     unittest.main()

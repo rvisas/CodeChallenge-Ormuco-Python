@@ -1,78 +1,63 @@
-import time
-from collections import OrderedDict
+from .node import Node
 
 class LRUCache:
 
-    def __init__(self, size=10, expiry=3600, region='US/EST'):
-        self.size = size
-        self.expiry = expiry
-        self.cache = OrderedDict()
-        self.region = region
+    def __init__(self, max_capacity=10, expiry=3600):
+        self._max_capacity = max_capacity
+        self._expiry = expiry
+        self._cache = dict()
         self._head = None
         self._tail = None
 
-    def put(self, data):
-        ts = time.time()
-        # data is new
-        if data.key not in self.cache:
-            self.cache[data.key] = (data, ts)
-            data.write(self.region)
-        # data is already in the cache
-        else:
-            del self.cache[data.key]
-            self._head = list(self.cache.keys())[0]
-
-        if self._head is None:
-            self._head = data.key
-
-        if len(self.cache) > self.size:
-            lru_data, _ = self.cache[self._head]
-            lru_data.delete(self.region)
-            del self.cache[self._head]
-            self._head = list(self.cache.keys())[0]
-        self._tail = data.key
-
     def get(self, key):
-        if self.in_cache(key):
-            data, _ = self.cache[key]
-            del self.cache[key]
-            self.cache[key] = (data, time.time())
-            self._tail = key
-            data.read()
-            return data
-        raise KeyError('key {} not in cache'.format(key))
+        if (key in self._cache):
+            node = self._cache[key]
+            self.deleteFromList(node)
+            self.insertHead(node)
+            return node.getValue()
+        else:
+            return None
 
-    @property
-    def lru(self):
-        return self._head
+    def deleteFromList(self, node):
+        prevNode = node.getPrev()
+        nextNode = node.getNext()
+        if ((prevNode == None) and (nextNode == None)):
+            self._head = None
+            self._tail = None
+        elif (prevNode == None):
+            self._head = nextNode
+            self._cache[self._head].setPrev(None)
+        elif (nextNode == None):
+            self._tail = prevNode
+            self._cache[self._tail].setNext(None)
+        else:
+            self._cache[prevNode].setNext(nextNode)
+            self._cache[nextNode].setPrev(prevNode)
 
-    @property
-    def mru(self):
-        return self._tail
+        del self._cache[node.getKey()]
 
-    def in_cache(self, key):
-        return key in self.cache
+    def insertHead(self, node):
+        self._cache[node.getKey()] = node
+        node.setNext(self._head)
+        self._head = node.getKey()
 
-    def is_empty(self):
-        return len(self.cache) == 0
+    def put(self, key, value):
+        node = None
+        if (key in self._cache):
+            node = self._cache[key]
+            node.setValue(value)
+            self.deleteFromList(node)
+        else:
+            if (len(self._cache) >= self._max_capacity):
+                self.deleteFromList(self._cache[self._tail])
+            node = Node(key, value)
 
-    def drop_expired(self):
-        if self.is_empty():
-            return
-        head_ts = self.cache[self._head][1]
-        while time.time() - head_ts > self.expiry:
-            if len(self.cache) == 1:
-                del self.cache[self._head]
-                self._head = None
-                self._tail = None
-                return
-            nxt = list(self.cache.keys())[1]
-            del self.cache[self._head]
-            self._head = nxt
-            head_ts = self.cache[self._head][1]
+        self.insertHead(node)
 
-    def __len__(self):
-        return len(self.cache)
+    def removeExpiredNodes(self):
+        for node in self._cache.values():
+            if (node.isExpired(self._expiry)):
+                self.deleteFromList(node)
 
-    def __contains__(self, key):
-        return key in self.cache
+    def getLength(self):
+        return len(self._cache)
