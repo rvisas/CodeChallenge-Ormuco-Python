@@ -46,3 +46,13 @@ Follow the next steps
 * Upload package to PyPI
 `$ twine upload dist/lru_cache-1.0.0.tar.gz`
 
+
+### To test the solution
+
+Follow the next steps
+
+* Move into the project folder
+`$ cd $HOME/{root_folder}`
+
+* Execute test file
+`$ python3 ./ronny_visa_test.py`
