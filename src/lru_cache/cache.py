@@ -38,6 +38,8 @@ class LRUCache:
         del self._cache[node.getKey()]
 
     def insertHead(self, node):
+        if (self.getLength() == 0):
+            self._tail = node.getKey()
         self._cache[node.getKey()] = node
         node.setNext(self._head)
         self._head = node.getKey()
@@ -50,6 +52,8 @@ class LRUCache:
             self.deleteFromList(node)
         else:
             if (self.getLength() >= self._max_capacity):
+                print("PUT: key:{}, value:{}".format(key, value))
+                print("SELF: head:{}, tail:{}".format(self._head, self._tail))
                 self.deleteFromList(self._cache[self._tail])
             node = Node(key, value)
 

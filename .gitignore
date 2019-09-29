@@ -1,1 +1,3 @@
 .vscode
+src/__pycache__
+src/lru_cache/__pycache__
