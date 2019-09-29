@@ -42,4 +42,4 @@ class Node:
             return False
 
     def __repr__(self):
-        return 'Node:{}, key:{}, value:{}'.format(self._creation_time, self._key, self._value)
+        return 'Node:{}, key:{}, value:{}, prev:{}, next:{}\n'.format(self._creation_time, self._key, self._value, self._prev, self._next)
