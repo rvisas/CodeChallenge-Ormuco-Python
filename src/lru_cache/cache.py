@@ -59,9 +59,9 @@ class LRUCache:
             self.deleteFromList(node)
         else:
             if (self.getLength() >= self._max_capacity):
-                self.deleteFromList(self._cache[self._tail])
+                self.deleteFromList(self._cache[self.getTail()])
             node = Node(key, value)
-
+        
         self.insertHead(node)
 
     def removeExpiredNodes(self):
@@ -79,8 +79,7 @@ class LRUCache:
         return self._tail
 
     def __repr__(self):
-        output = "CACHE: Head:({}), Tail:({}), Content: ".format(
-            self._head, self._tail)
+        output = "CACHE: Head:({}), Tail:({}), Content: ".format(self.getHead(), self.getTail())
         keyIterator = self.getHead()
         while (keyIterator != None):
             node = self._cache[keyIterator]
