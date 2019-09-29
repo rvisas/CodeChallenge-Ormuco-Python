@@ -1,4 +1,3 @@
-import time
 import unittest
 
 from src.lru_cache.node import Node
